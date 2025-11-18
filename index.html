@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Sector Automotriz</title>
+    <title>Análisis Sector Automotriz Colombiano</title>
     
-    <!-- Variables CSS (para altura de header) -->
+    <!-- Variables CSS -->
     <style>:root { --header-height: 60px; }</style>
 
     <!-- Estilos Generales -->
@@ -19,7 +19,7 @@
             padding: 0;
         }
         html {
-            scroll-behavior: smooth; /* Comportamiento de scroll suave base */
+            scroll-behavior: smooth;
         }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -39,6 +39,8 @@
             background-color: #ffffff;
             padding: 20px;
             animation: fadeIn 1.5s ease-out;
+            position: relative; 
+            z-index: 10;
         }
         .hero-content {
             max-width: 800px;
@@ -57,18 +59,19 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
-            overflow: hidden; /* --- CORRECCIÓN PARA IMAGEN --- */
+            overflow: hidden;
         }
         .hero-logo img {
-            width: 100%; /* --- CORRECCIÓN PARA IMAGEN --- */
-            height: 100%; /* --- CORRECCIÓN PARA IMAGEN --- */
-            object-fit: cover; /* --- CORRECCIÓN PARA IMAGEN --- */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .hero-content h1 {
-            font-size: 2.75rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: #1a202c;
             margin-bottom: 16px;
+            line-height: 1.3;
         }
         .hero-content .subtitle {
             font-size: 1.25rem;
@@ -130,83 +133,14 @@
             transform: translateY(-2px);
         }
 
-        /* --- DISEÑO PRINCIPAL (LAYOUT) --- */
-        .main-header {
-            width: 100%;
-            height: var(--header-height);
-            background-color: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .main-header h2 {
-            margin: 0;
-            font-size: 1.25rem;
-            color: #2d3748;
-        }
+        /* --- CONTENEDOR PRINCIPAL --- */
         .container {
-            display: flex;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        /* --- BARRA LATERAL (SIDEBAR) --- */
-        .sidebar {
-            width: 260px; /* --- ANCHO AJUSTADO --- */
-            height: calc(100vh - var(--header-height));
-            position: sticky;
-            top: var(--header-height);
-            background-color: #ffffff;
-            border-right: 1px solid #e2e8f0;
-            padding: 24px;
-            overflow-y: auto;
-        }
-        .sidebar h3 {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #718096;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 16px;
-        }
-        .sidebar-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .sidebar-nav li {
-            margin-bottom: 4px;
-        }
-        .sidebar-nav a {
-            display: block;
-            padding: 8px 12px;
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-        .sidebar-nav a:hover {
-            background-color: #f7fafc;
-            color: #2d3748;
-        }
-        .sidebar-nav a.active {
-            background-color: #e6f2ff;
-            color: #0056b3;
-            font-weight: 700;
-        }
-
-        /* --- CONTENIDO PRINCIPAL --- */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            min-width: 0; /* Evita que flexbox se desborde */
-        }
+        /* --- ESTILOS DE CONTENIDO --- */
         .main-content section {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
@@ -214,12 +148,16 @@
             margin-bottom: 40px;
             padding: 32px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            max-width: 900px; /* --- LÍMITE DE ANCHO AÑADIDO --- */
-            margin-left: auto; /* --- CENTRADO --- */
-            margin-right: auto; /* --- CENTRADO --- */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            scroll-margin-top: 80px; /* Asegura que el título no quede oculto por el header al hacer scroll */
         }
-        
-        /* --- ESTILOS DE CONTENIDO (h2, p, img) --- */
+        .main-content section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         section h2 {
             font-size: 1.75rem;
             color: #1a202c;
@@ -268,14 +206,16 @@
             margin-top: 12px;
             font-style: italic;
         }
+        
+        /* --- ARREGLO DE TABLAS (BORDES FINOS) --- */
         section table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: collapse; /* CLAVE: Elimina el doble borde */
             margin: 24px 0;
             font-size: 0.95rem;
         }
         section th, section td {
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e2e8f0; /* Borde simple y fino */
             padding: 12px;
             text-align: left;
         }
@@ -361,6 +301,37 @@
         #marco-historico .timeline::-webkit-scrollbar { height: 8px; }
         #marco-historico .timeline::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
 
+        /* --- BOTÓN VOLVER ARRIBA --- */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 24px;
+            line-height: 50px;
+            text-decoration: none;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+            transform: translateY(10px);
+        }
+        .scroll-top-btn.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .scroll-top-btn:hover {
+            background-color: #0056b3;
+        }
+
         /* --- ANIMACIONES --- */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -371,15 +342,6 @@
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
 
         /* --- PIE DE PÁGINA --- */
         footer {
@@ -388,118 +350,51 @@
             background-color: #2d3748;
             color: #a0aec0;
             font-size: 0.9rem;
+            margin-top: 40px;
         }
         footer p { text-align: center; color: #a0aec0; }
         footer a { color: #ffffff; text-decoration: underline; }
 
-        /* --- RESPONSIVE DESIGN (MÓVIL) --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: static;
-                border-right: none;
-                border-bottom: 1px solid #e2e8f0;
-                overflow-y: visible;
-            }
-            .main-content {
-                padding: 20px;
-            }
-            .main-content section {
-                padding: 24px;
-            }
-            .hero-content h1 { font-size: 2rem; }
+            .container { padding: 0 10px; margin-top: 20px; }
+            .main-content section { padding: 24px; }
+            .hero-content h1 { font-size: 1.8rem; }
             .hero-content .subtitle { font-size: 1rem; }
             .hero-tags { gap: 8px; }
             .hero-tags span { font-size: 0.8rem; padding: 6px 12px; }
-            .hero-authors { font-size: 0.9rem; gap: 8px 16px; }
             .hero-buttons { flex-direction: column; gap: 12px; }
-            .main-header h2 { font-size: 1.1rem; }
+            #marco-historico .timeline-item { min-width: 280px; }
         }
 
-        /* --- ESTILOS DE IMPRESIÓN (PARA "DESCARGAR") --- */
+        /* --- ESTILOS DE IMPRESIÓN --- */
         @media print {
-            body {
-                font-family: 'Times New Roman', Times, serif;
-                color: #000;
-                background-color: #fff;
-            }
-            .hero-section, .sidebar, .main-header, footer, .hero-buttons, .accordion-button {
-                display: none !important;
-            }
-            .main-content {
-                padding: 0;
-                width: 100%;
-            }
-            .main-content section {
-                box-shadow: none;
-                border: none;
-                padding: 0;
-                margin-bottom: 20px;
-                max-width: 100% !important; /* Asegura que ocupe todo */
-            }
-            .accordion-content {
-                max-height: none !important; /* Muestra contenido de acordeón */
-                padding: 0 !important;
-                border: none !important;
-            }
-            h2 {
-                color: #000;
-                border-bottom: 2px solid #000;
-                font-size: 16pt;
-            }
-            h3 { color: #000; font-size: 14pt; }
-            h4 { color: #000; font-size: 12pt; }
-            p, li { color: #000; font-size: 12pt; text-align: justify; }
-            table, th, td {
-                border: 1px solid #000 !important;
-                font-size: 10pt;
-            }
-            th { background-color: #f0f0f0 !important; }
-            figure {
-                page-break-inside: avoid; /* Evita que las imágenes se corten */
-            }
-            img {
-                max-width: 70% !important; /* Reduce tamaño de imagen para impresión */
-                border: 1px solid #ccc !important;
-            }
-            figcaption { color: #333 !important; font-size: 10pt; }
-            /* Oculta la línea de tiempo horizontal y muestra vertical */
-            #marco-historico .timeline {
-                display: block;
-                overflow-x: visible;
-            }
-            #marco-historico .timeline-item {
-                width: 100%;
-                max-width: 100%;
-                box-shadow: none;
-                border-bottom: 1px dashed #ccc;
-                padding: 10px 0;
-            }
-            a { text-decoration: none; color: #000; }
-            /* Oculta las fuentes URL en la impresión */
-            figcaption em { display: none; }
+            body { font-family: 'Times New Roman', Times, serif; color: #000; background: #fff; }
+            .hero-section, footer, .hero-buttons, .accordion-button, .scroll-top-btn { display: none !important; }
+            .container { max-width: 100% !important; margin: 0; padding: 0; }
+            .main-content section { box-shadow: none; border: none; padding: 0; margin-bottom: 20px; opacity: 1 !important; transform: none !important; }
+            .accordion-content { max-height: none !important; padding: 0 !important; border: none !important; }
+            table, th, td { border: 1px solid #000 !important; font-size: 10pt; }
+            #marco-historico .timeline { display: block; overflow-x: visible; }
+            #marco-historico .timeline-item { width: 100%; box-shadow: none; border-bottom: 1px dashed #ccc; }
         }
-
     </style>
 </head>
 <body>
 
-    <!-- NUEVO: Portada (Hero Section) -->
+    <!-- Portada (Hero Section) -->
     <section class="hero-section" id="portada">
         <div class="hero-content">
             
             <a href="https://www.umng.edu.co/inicio" target="_blank" rel="noopener noreferrer" class="hero-logo-link">
                 <div class="hero-logo">
-                    <!-- CORREGIDO A .JPG -->
                     <img src="escudoumng.jpg" alt="Logo Universidad Militar Nueva Granada">
                 </div>
             </a>
             
-            <h1>Limitaciones del Sector Automotriz Colombiano</h1>
+            <h1>
+                Análisis de las causas por las cuales el sector automotriz en Colombia no ha logrado generar un producto de calidad
+            </h1>
             
             <p class="subtitle">
                 Análisis de las causas estructurales, tecnológicas y económicas que han impedido la
@@ -518,55 +413,21 @@
             </div>
             
             <div class="hero-buttons">
-                <a href="#introduccion" class="btn btn-secondary">Ver Contenido ↓</a>
-                <!-- ====================================================== -->
-                <!-- INICIO DE LA CORRECCIÓN DEL BOTÓN DE DESCARGA -->
-                <!-- ====================================================== -->
-                <a href="Análisis de las causas por las cuales el sector automotriz en Colombia no ha logrado generar un producto de calidad.docx" 
-                   id="download-button" 
+                <a href="#introduccion" class="btn btn-secondary" id="view-content-btn">Ver Contenido ↓</a>
+                
+                <!-- TAREA: RENOMBRA TU ARCHIVO WORD A "Tesis_Automotriz_Final.docx" -->
+                <a href="Tesis_Automotriz_Final.docx" 
                    class="btn btn-primary"
                    download>
                     Descargar Documento Completo
                 </a>
-                <!-- ====================================================== -->
-                <!-- FIN DE LA CORRECCIÓN -->
-                <!-- ====================================================== -->
             </div>
 
         </div>
     </section>
 
-    <!-- Encabezado Fijo -->
-    <header class="main-header">
-        <h2>Investigación: Sector Automotriz Colombiano</h2>
-    </header>
-    
+    <!-- Contenedor Principal -->
     <div class="container">
-        <!-- Barra Lateral de Navegación -->
-        <aside class="sidebar">
-            <h3>Secciones</h3>
-            <nav>
-                <ul class="sidebar-nav">
-                    <!-- Enlaces de navegación -->
-                    <li><a href="#introduccion" class="active">Introducción</a></li>
-                    <li><a href="#justificacion">Justificación</a></li>
-                    <li><a href="#planteamiento-problema">Planteamiento del Problema</a></li>
-                    <li><a href="#pregunta-problema">Pregunta Problema</a></li>
-                    <li><a href="#justificacion-problema">Justificación del Problema</a></li> <!-- ENLACE AÑADIDO -->
-                    <li><a href="#hipotesis">Hipótesis</a></li>
-                    <li><a href="#objetivos">Objetivos</a></li>
-                    <li><a href="#metodologia">Metodología</a></li>
-                    <li><a href="#poblacion-muestra">Población y Muestra</a></li>
-                    <li><a href="#marco-geografico">Marco Geográfico</a></li>
-                    <li><a href="#marco-historico">Marco Histórico</a></li>
-                    <li><a href="#marco-legal">Marco Legal</a></li>
-                    <li><a href="#capitulo1">Capítulo 1</a></li>
-                    <li><a href="#capitulo2">Capítulo 2</a></li>
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Contenido Principal -->
         <main class="main-content">
 
             <!-- 1. INTRODUCCIÓN -->
@@ -709,7 +570,7 @@
                             <th>Participante</th>
                             <th>Edad</th>
                             <th>Sexo</th>
-                            <th>Estrato socioeconómico</th>
+                            <th>Estrato</th>
                             <th>Nivel de estudios</th>
                             <th>Ocupación</th>
                         </tr>
@@ -803,7 +664,7 @@
                                 <em>Fuente: Tomado de la república. (s. f.). https://www.larepublica.co/empresas/historia-de-colmotores-3849247</em>
                             </figcaption>
                         </figure>
-                        <p>La industria automotriz colombiana comenzó a consolidarse en la década de 1950 con la llegada de las primeras plantas ensambladoras, como General Motors Colmotores. Estas operaron bajo licencias extranjeras y dependieron de la importación de piezas.</p>
+                        <p>La industria automotriz colombiana comenzó a consolidarse en la década de 1950 con la llegada de las primeras plantas ensambladoras, como General Motors Colmotores.</p>
                     </div>
 
                     <!-- 1980-2000 -->
@@ -812,7 +673,7 @@
                         <figure>
                             <img src="ilustracion 5 apertura economica (marco historico).jpg" alt="Apertura economica (1980–2000)" />
                             <figcaption><strong>Apertura económica.</strong><br>
-                                <em>Fuente: Tomado de la revista semana (s. f.). https://www.semana.com/una-fotografia-fidedigna-de-transformacion-econome-empresarial-colombiana/427285-3</em>
+                                <em>Fuente: Tomado de la revista semana (s. f.). https://www.semana.com/una-fotografia-fidedigna-de-transformacion-economica-empresarial-colombiana/427285-3</em>
                             </figcaption>
                         </figure>
                         <p>Con la apertura comercial muchas ensambladoras disminuyeron su producción o cerraron; Colombia se transformó en un mercado de consumo más que en un país productor.</p>
@@ -973,7 +834,8 @@
                     A partir del 2000, leyes (Ley 697, 1715, 1964) promovieron la movilidad eléctrica. Sin embargo, estas normas incentivaron más el consumo que la producción nacional.
                 </p>
                 <figure>
-                    <img src="ilustracion 14 puestos de carga electricos (capitulo 1).jpg" alt="Puestos de carga eléctricos Terpel" style="width: 80%; margin: 0 auto; display: block;">
+                    <!-- CORRECCIÓN DE NOMBRE DE IMAGEN -->
+                    <img src="ilustracion 14 puestos de carga electricos terpel (capitulo 1).jpg" alt="Puestos de carga eléctricos Terpel" style="width: 80%; margin: 0 auto; display: block;">
                     <figcaption><strong>Puestos de carga eléctricos Terpel</strong><br>
                         <em>Fuente: Tomado de dreamstime. (s. f.). https://mobilityportal.lat/terpel-24-puntos-carga-vias</em>
                     </figcaption>
@@ -1065,6 +927,55 @@
                 <p>La escasa innovación tecnológica y la dependencia de autopartes extranjeras fueron las causas más mencionadas en las entrevistas. Los participantes consideran fundamental que universidades, Estado y empresas trabajen juntas para impulsar la innovación.</p>
                 <p>En síntesis, aunque existe talento nacional, la falta de infraestructura industrial y de políticas que fomenten la producción limita la industria automotriz. El futuro del sector dependerá de integrar conocimiento, innovación y producción local en una estrategia industrial clara.</p>
             </section>
+            
+            <!-- 15. CAPÍTULO 3 (ANÁLISIS Y CONCLUSIONES FINALES) -->
+            <section id="capitulo3" class="fade-in-section">
+                <h2>CAPÍTULO 3: Análisis y Conclusiones Finales</h2>
+                
+                <h3>1.1. Introducción al Análisis</h3>
+                <p>
+                    Este capítulo analiza e interpreta de manera integral los resultados obtenidos a partir de las entrevistas y encuestas, integrando técnicas cualitativas y cuantitativas para contrastar los hallazgos empíricos con el marco teórico. Se busca establecer relaciones entre las percepciones de los participantes y los factores estructurales que han limitado el desarrollo automotriz en Colombia.
+                </p>
+
+                <h3>1.2. Análisis global de los resultados</h3>
+                <p>
+                    Los participantes perciben que la industria automotriz colombiana se encuentra en un nivel de desarrollo intermedio, con capacidad para el ensamblaje pero con un fuerte rezago en innovación. Entre los hallazgos más relevantes se destacan: el 100% afirma que la falta de inversión en I+D afecta negativamente la calidad, y el 83.3% reconoce que la dependencia de autopartes importadas limita el crecimiento.
+                </p>
+                
+                <h3>1.3. Relación con los objetivos</h3>
+                <p>
+                    Los resultados confirman las causas planteadas en el objetivo general: insuficiente inversión en investigación, escasa innovación tecnológica y débil relación Estado–academia–industria. Se validó que la falta de I+D y la dependencia de insumos son las principales barreras.
+                </p>
+
+                <h3>1.4. Discusión teórica y antecedentes</h3>
+                <p>
+                    La teoría de autores como Hernández (2014) y Maldonado (2021) valida la percepción de que la innovación depende de inversión constante y políticas sostenidas. Asimismo, los hallazgos coinciden con antecedentes que señalan la baja automatización y la escasa adopción de tecnologías 4.0 en el país.
+                </p>
+
+                <h3>1.5. Interpretación final</h3>
+                <p>
+                    El análisis permite concluir que existe un rezago tecnológico generalizado y una industria dependiente de autopartes importadas. La inversión en I+D es prácticamente inexistente y el rol del Estado es insuficiente. Aunque Colombia posee talento humano, carece de las condiciones estructurales para potenciarlo.
+                </p>
+                
+                <hr style="border: 0; height: 1px; background: #e2e8f0; margin: 40px 0;">
+
+                <h2>CONCLUSIONES GENERALES</h2>
+                <p>
+                    La presente investigación permitió analizar de manera integral las causas que han limitado el desarrollo de la industria mecatrónica automotriz en Colombia. Los resultados evidenciaron que el país mantiene un nivel de avance intermedio, centrado en el ensamblaje y con una marcada dependencia tecnológica, lo que impide su consolidación como una industria competitiva a nivel internacional.
+                </p>
+                <p>
+                    <strong>Falta de Inversión:</strong> Los participantes coincidieron en que la falta de inversión en investigación y desarrollo (I+D) es una de las barreras más significativas. La ausencia de programas estatales sostenidos y la limitada infraestructura científica dificultan el surgimiento de iniciativas tecnológicas propias.
+                </p>
+                <p>
+                    <strong>Rol del Estado:</strong> Se identificó que el Estado desempeña un papel insuficiente, con políticas que carecen de continuidad y priorizan modelos basados en la importación. Esto ha debilitado la capacidad competitiva de la industria.
+                </p>
+                <p>
+                    <strong>Rol de la Academia:</strong> Las universidades poseen un gran potencial para impulsar el desarrollo mediante la formación de talento, pero requieren mayores incentivos y políticas de vinculación efectivas con el sector productivo.
+                </p>
+                <p>
+                    <strong>Reflexión Final:</strong> Si bien Colombia cuenta con capacidad técnica y talento profesional, estas fortalezas no se han articulado efectivamente. Para avanzar, es indispensable consolidar políticas públicas de innovación, fomentar la cooperación Estado-academia-empresa y promover la producción local de tecnologías mecatrónicas. Solo así el país podrá reducir su dependencia externa y avanzar hacia un modelo industrial autónomo.
+                </p>
+            </section>
 
         </main>
     </div>
@@ -1074,6 +985,11 @@
         <p>Proyecto de Investigación - Ingeniería Mecatrónica 2025.</p>
         <p>Universidad Militar Nueva Granada | <a href="https://www.umng.edu.co/inicio" target="_blank" rel="noopener noreferrer">umng.edu.co</a></p>
     </footer>
+
+    <!-- Botón Volver Arriba -->
+    <a href="#portada" class="scroll-top-btn" aria-label="Volver arriba">
+        &uarr; <!-- Flecha hacia arriba -->
+    </a>
 
     <!-- Scripts de JavaScript (Compatibilidad ES5) -->
     <script>
@@ -1093,86 +1009,47 @@
                 });
             }
 
-            // --- 2. SCRIPT PARA "SCROLL SPY" (NAVEGACIÓN ACTIVA) ---
-            var sections = document.querySelectorAll("section[id]");
-            var navLinks = document.querySelectorAll(".sidebar-nav a");
-
-            var onScroll = function() {
-                var currentSection = "";
-                // Obtiene la altura del header para el offset
-                var headerHeightValue = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
-                var headerOffset = parseInt(headerHeightValue, 10) || 60;
-                var scrollY = window.scrollY;
-
-                sections.forEach(function(section) {
-                    var sectionTop = section.offsetTop;
-                    if (section.id !== 'portada' && scrollY >= (sectionTop - headerOffset - 50)) {
-                        currentSection = section.getAttribute("id");
-                    }
-                });
-
-                // Lógica especial para la portada
-                var introSection = document.getElementById('introduccion');
-                if (introSection && scrollY < (introSection.offsetTop - headerOffset - 50)) {
-                    currentSection = "portada";
-                }
-
-                navLinks.forEach(function(link) {
-                    link.classList.remove("active");
-                    var href = link.getAttribute("href");
-                    if (href === "#" + currentSection) {
-                        link.classList.add("active");
-                    }
-                });
-            };
-
-            window.addEventListener("scroll", onScroll);
-            onScroll(); // Ejecuta una vez al cargar
-
-            // --- 3. SCRIPT PARA SMOOTH SCROLL (ROBUSTO) ---
+            // --- 2. SCRIPT PARA SMOOTH SCROLL (ROBUSTO) ---
             document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
                 anchor.addEventListener("click", function(e) {
                     
                     var targetId = this.getAttribute("href");
                     
-                    // Si el href es solo "#", no hace nada.
-                    if (targetId === "#") {
-                        e.preventDefault(); // Previene el salto al inicio
+                    // Si el href es solo "#" (o vacío), no hace nada.
+                    if (!targetId || targetId === "#") {
                         return; 
                     }
 
-                    e.preventDefault(); // Previene el salto de página solo para anclas de scroll
-                    var targetSection = document.querySelector(targetId);
+                    e.preventDefault(); // Previene el salto de página
                     
-                    if (targetSection) {
-                        // Obtiene la altura del header dinámicamente
-                        var headerHeightValue = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
-                        var headerOffset = parseInt(headerHeightValue, 10) || 60;
-                        
-                        var elementPosition = targetSection.getBoundingClientRect().top;
-                        
-                        var offsetPosition;
-                        if (targetId === "#portada") {
-                            // Scroll hasta el inicio de la página
-                            offsetPosition = 0;
-                        } else {
-                            // Scroll a la sección con offset del header
-                            offsetPosition = elementPosition + window.scrollY - headerOffset;
+                    // Intenta encontrar el elemento de manera segura
+                    try {
+                        var targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            var headerHeightValue = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
+                            var headerOffset = parseInt(headerHeightValue, 10) || 60;
+                            
+                            var elementPosition = targetSection.getBoundingClientRect().top;
+                            var offsetPosition;
+                            
+                            if (targetId === "#portada") {
+                                offsetPosition = 0;
+                            } else {
+                                offsetPosition = elementPosition + window.scrollY - headerOffset;
+                            }
+                            
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
                         }
-                        
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: "smooth"
-                        });
+                    } catch (err) {
+                        console.log("Selector no válido o elemento no encontrado:", targetId);
                     }
                 });
             });
 
-            // --- 4. SCRIPT PARA BOTÓN DE DESCARGAR (ELIMINADO) ---
-            // Se eliminó el script que llamaba a window.print()
-            // El botón ahora es un enlace de descarga directo.
-
-            // --- 5. SCRIPT PARA FADE-IN SECTIONS EN SCROLL ---
+            // --- 3. SCRIPT PARA FADE-IN SECTIONS EN SCROLL ---
             var sectionsToFade = document.querySelectorAll('.fade-in-section');
 
             if ('IntersectionObserver' in window) {
@@ -1180,22 +1057,32 @@
                     entries.forEach(function(entry) {
                         if (entry.isIntersecting) {
                             entry.target.classList.add('is-visible');
-                            // Opcional: dejar de observar una vez que es visible
                             observer.unobserve(entry.target); 
                         }
                     });
                 }, {
-                    root: null, // relativo al viewport
-                    threshold: 0.1 // 10% de la sección debe estar visible
+                    root: null, 
+                    threshold: 0.1 
                 });
 
                 sectionsToFade.forEach(function(section) {
                     observer.observe(section);
                 });
             } else {
-                // Fallback para navegadores antiguos: solo muestra las secciones
                 sectionsToFade.forEach(function(section) {
                     section.classList.add('is-visible');
+                });
+            }
+            
+            // --- 4. SCRIPT PARA BOTÓN VOLVER ARRIBA ---
+            var scrollTopBtn = document.querySelector('.scroll-top-btn');
+            if (scrollTopBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 300) {
+                        scrollTopBtn.classList.add('is-visible');
+                    } else {
+                        scrollTopBtn.classList.remove('is-visible');
+                    }
                 });
             }
 
